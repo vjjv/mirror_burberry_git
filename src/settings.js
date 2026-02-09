@@ -7,7 +7,7 @@ export const Settings = {
   //Camera kit config
   config: {
     apiToken: "eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzM4MjM2Njg5LCJzdWIiOiJmYWMzYWZjOS0zOTEyLTRlNTUtYTdiZS03MjJlOGRmYWY4ZjV-UFJPRFVDVElPTn5lOGQ0OTM1NS00YmNlLTRiYWEtODkzNC1lMWNlNmU0ZDM5M2IifQ.6sZB_6aFPL8OW-UO3Y37P7Rev7mzjS9IhNRFk7NelBI",
-    lensID: "e11e9688-3d96-4804-af23-c5b040f3c4c4",
+    lensID: "ce201dac-8be0-4d81-9ce1-860d28b58052", //MIRROR_BURBERRY
     groupID: "f7f4e367-f4b3-4de5-8e81-e9c842f2bf0b",
     remoteAPISpecId: "YOUR_REMOTE_API_SPEC_ID_HERE", // From my lenses API section
     useRemoteAPI: false, // Set to true to enable using remote API
