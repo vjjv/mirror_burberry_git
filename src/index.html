@@ -29,19 +29,16 @@
     </div>
 
     <div id="action-buttons" style="display: none">
-      <button id="share-button" class="button-class">
-        <img id="shareImg" src="./assets/ShareButton.png" alt="share" />
-      </button>
-      <button id="download-button" class="button-class">
-        <img id="downloadImg" src="./assets/DownloadButton.png" alt="download" />
-      </button>
+      <div class="button-row">
+        <button id="download-button" class="button-class">DOWNLOAD</button>
+        <button id="share-button" class="button-class">SHARE</button>
+      </div>
+      <div class="retry-row">
+        <button id="back-button" class="button-class"> <u>Retry</u></button>
+      </div>
     </div>
 
-    <div id="back-button-container" style="display: none">
-      <button id="back-button" class="button-class">
-        <img id="backImg" src="./assets/BackButton.png" alt="back" />
-      </button>
-    </div>
+    <!-- Removed back-button-container, Retry is now below action buttons -->
 
     <div id="loading">
       <img id="loading-icon" src="./assets/LoadingIcon.png" alt="loading" />

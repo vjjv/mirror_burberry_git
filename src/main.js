@@ -267,7 +267,9 @@ if (isDesktop() && !allowDesktop) {
   // Add back button handler
   document.getElementById("back-button").addEventListener("click", async () => {
     try {
-      mediaRecorder.resetRecordingVariables()
+      if (mediaRecorder && typeof mediaRecorder.resetRecordingVariables === 'function') {
+        mediaRecorder.resetRecordingVariables()
+      }
       uiManager.updateRenderSize(source, liveRenderTarget)
       uiManager.updateRenderSize(source, captureRenderTarget)
     } catch (error) {

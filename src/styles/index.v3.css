@@ -36,7 +36,7 @@ body {
 
 #controls {
   position: absolute;
-  bottom: 10%;
+  bottom: 3%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -80,99 +80,96 @@ body {
 
 #action-buttons {
   position: absolute;
-  bottom: 9%; /* Adjust the distance from the bottom of the screen */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%); /* Offset by half the width and height */
-  display: flex; /* Enables flex layout */
-  justify-content: center; /* Aligns buttons horizontally */
-  align-items: center; /* Aligns buttons vertically */
-  z-index: 1000; /* Ensure visibility above other elements */
-  flex-wrap: wrap; /* Allows wrapping if container width is too small */
-}
-
-#back-button-container {
-  position: absolute;
-  top: 2%;
-  left: 3%;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   z-index: 1000;
+  width: 90%;
+  max-width: 740px;
 }
 
-#back-button {
-  transform: none;
-  background-color: transparent;
-  height: 100px;
-  width: 100px;
-  color: transparent;
-  border: none;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  padding: 0%;
-  transition: transform 0.15s ease-in-out;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-}
-#back-button img {
-  /* Add this if your button uses an image */
-  max-width: 100%;
-  max-height: 100%;
-  height: auto;
+#action-buttons .button-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
 }
 
-#back-button:active {
-  transform: translate(2px, 2px);
-}
-
-#share-button {
-  height: 125px;
-  width: 125px;
-  background-color: transparent;
-  transform: translate(-25%, 0);
-  color: transparent;
-  border: none;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  padding: 0%;
-  transition: transform 0.15s ease-in-out;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-}
-
-#share-button img {
-  max-width: 100%;
-  max-height: 100%;
-  height: auto;
-}
-
-#share-button:active {
-  transform: translate(calc(-25% + 2px), 2px);
+#download-button, #share-button {
+  height: 100px !important;
+  flex: 1 !important;
+  /* max-width: 280px !important; */
+  color: #000 !important;
+  border: 1px solid #d0d0d0 !important;
+  border-radius: 2px !important;
+  font-size: 30px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
+  outline: none !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  position: relative !important;
+  left: auto !important;
+  transform: none !important;
 }
 
 #download-button {
-  height: 125px;
-  width: 125px;
-  background-color: transparent;
-  transform: translate(25%, 0);
-  color: transparent;
-  border: none;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  padding: 0%;
-  transition: transform 0.15s ease-in-out;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
+  background: #ffffff !important;
+  margin-right: 35px;
+  
 }
 
-#download-button img {
-  max-width: 100%;
-  max-height: 100%;
-  height: auto;
+#share-button {
+  background: #d9d9d9 !important;
 }
 
-#download-button:active {
-  transform: translate(calc(25% + 2px), 2px);
+#download-button:active, #share-button:active {
+  background: #cfcfcf !important;
+  color: #111 !important;
+}
+
+#action-buttons .retry-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: -60px;
+}
+
+#back-button {
+  background: transparent !important;
+  color: #ffffff !important;
+  font-size: 38px !important;
+  font-weight: 500 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  height: auto !important;
+  width: auto !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  outline: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: opacity 0.15s ease !important;
+  padding: 2px 6px !important;
+  transform: none !important;
+  text-transform: none !important;
+}
+
+#back-button:active {
+  opacity: 0.7 !important;
 }
 
 #switch-cam {
@@ -233,19 +230,17 @@ body {
   width: 70px;
 }
 
-.desktop #share-button {
-  height: 70px;
-  width: 70px;
-}
-
+.desktop #share-button,
 .desktop #download-button {
-  height: 70px;
-  width: 70px;
+  height: 50px !important;
+  width: 140px !important;
+  font-size: 16px !important;
 }
 
 .desktop #back-button {
-  height: 50px;
-  width: 50px;
+  height: 32px !important;
+  width: 90px !important;
+  font-size: 14px !important;
 }
 
 /* Hide switch button on desktop */

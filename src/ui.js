@@ -19,7 +19,7 @@ export class UIManager {
     this.actionButton = document.getElementById("action-buttons")
     this.switchButton = document.getElementById("switch-button")
     this.loadingIcon = document.getElementById("loading")
-    this.backButtonContainer = document.getElementById("back-button-container")
+    this.backButton = document.getElementById("back-button") // Retry button
     this.recordPressedCount = 0
 
     // --- Tap to take photo, long press to record ---
@@ -235,46 +235,21 @@ export class UIManager {
     if (shareButton && downloadButton) {
       if (isAndroid) {
         // Android: show both buttons
-        shareButton.style.display = "inline-block"
-        downloadButton.style.display = "inline-block"
-        // Position buttons side by side
-        shareButton.style.position = "absolute"
-        shareButton.style.transform = "translateX(-50%)"
-        shareButton.style.left = "60%"
-        downloadButton.style.position = "absolute"
-        downloadButton.style.transform = "translateX(-50%)"
-        downloadButton.style.left = "40%"
+        shareButton.style.display = "inline-flex"
+        downloadButton.style.display = "inline-flex"
       } else if (isIOS) {
         // iOS: only share button
-        shareButton.style.display = "inline-block"
+        shareButton.style.display = "inline-flex"
         downloadButton.style.display = "none"
-        shareButton.style.position = "absolute"
-        shareButton.style.transform = "translateX(-50%)"
-        shareButton.style.left = "50%"
       } else {
         // Desktop: only download button
         shareButton.style.display = "none"
-        downloadButton.style.display = "inline-block"
-        downloadButton.style.position = "absolute"
-        downloadButton.style.transform = "translateX(-50%)"
-        downloadButton.style.left = "50%"
+        downloadButton.style.display = "inline-flex"
       }
     }
 
-    // Move the back button directly into the action-buttons container
-    const actionButtons = document.getElementById("action-buttons")
-    const backButton = document.getElementById("back-button")
-    if (actionButtons && backButton) {
-      actionButtons.insertBefore(backButton, actionButtons.firstChild)
-      backButton.style.height = "125px"
-      backButton.style.width = "125px"
-      backButton.style.left = "11.75vw"
-      backButton.style.position = "relative"
-      actionButtons.style.width = "100%"
-      // backButton.style.display = "inline-block"
-      // backButton.style.marginRight = "12px"
-      // backButton.style.marginBottom = "0"
-    }
+    // backButton (Retry) is already positioned correctly in HTML below button-row
+    // No need to move or apply inline styles
 
     this.actionButton.style.display = "block"
     this.switchButton.style.display = "none"
@@ -320,8 +295,8 @@ export class UIManager {
     }
 
     document.getElementById("back-button").onclick = async () => {
+      // Retry logic: hide action buttons, show record button and switch button
       this.actionButton.style.display = "none"
-      this.backButtonContainer.style.display = "none"
       this.switchButton.style.display = "block"
       this.toggleRecordButton(true)
       if (Settings.ui.displayPreview) {
@@ -340,26 +315,7 @@ export class UIManager {
   }
 
   displayPreview(dataURL) {
-    // Add white text below the video preview
-    let previewText = document.createElement("div")
-    previewText.id = "preview-lorem"
-    previewText.innerHTML = `Save & Share!`
-    previewText.style = `
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 2vh;
-      color: white;
-      text-align: center;
-      font-size: 1.5vh;
-      font-family: sans-serif;
-      z-index: 1100;
-      pointer-events: none;
-      line-height: 1.2;
-      text-shadow: 0 2px 8px #000;
-    `
-    document.body.appendChild(previewText)
-    // Create a fullscreen black background div
+    // Create a fullscreen background div with bg.png
     const bg = document.createElement("div")
     bg.id = "preview-bg"
     bg.style = `
@@ -368,7 +324,7 @@ export class UIManager {
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: black;
+      background: url('./assets/bg.png') center center / cover no-repeat, black;
       z-index: 998;
       display: flex;
       align-items: flex-start;
@@ -385,8 +341,6 @@ export class UIManager {
       align-items: center;
       justify-content: center;
       z-index: 999;
-      box-shadow: 0 0 40px 0 #000;
-      border-radius: 20px;
       background: black;
       overflow: hidden;
       max-width: 76.5vw;
@@ -403,12 +357,11 @@ export class UIManager {
       preview.id = 'preview'
       preview.style = `
         display: block;
-        max-width: 98%;
+        max-width: 100%;
         max-height: calc(100% - 18px);
         margin: 0 auto;
-        border-radius: 50px;
-        background: black;
-        border: 8px solid white;
+        background: transparent;
+        border: none;
       `
       container.appendChild(preview)
     } else {
@@ -424,7 +377,7 @@ export class UIManager {
       preview.volume = 1.0
       preview.style = `
         display: block;
-        max-width: 98%;
+        max-width: 100%;
         max-height: calc(100% - 18px);
         margin: 0 auto;
         border-radius: 50px;
@@ -450,21 +403,13 @@ export class UIManager {
   }
 
   removePreview() {
-  // Remove the preview text if present
-  const previewText = document.getElementById("preview-lorem")
-  if (previewText) previewText.remove()
-    // Restore back button position
-    const backButtonContainer = document.getElementById("back-button-container")
-    if (backButtonContainer) {
-      backButtonContainer.style.position = "absolute"
-      backButtonContainer.style.top = "2%"
-      backButtonContainer.style.left = "3%"
-      backButtonContainer.style.right = ""
-      backButtonContainer.style.bottom = ""
-      backButtonContainer.style.transform = "none"
-      backButtonContainer.style.zIndex = 1000
-      // Do not force display, let logic handle it
-    }
+    // Remove the preview text if present
+    const previewText = document.getElementById("preview-lorem")
+    if (previewText) previewText.remove()
+    
+    // Retry button is already positioned correctly in HTML structure
+    // No need to restore position
+    
     const preview = document.getElementById("preview")
     if (preview) preview.remove()
     const bg = document.getElementById("preview-bg")
