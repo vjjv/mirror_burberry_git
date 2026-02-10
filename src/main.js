@@ -213,7 +213,7 @@ if (isDesktop() && !allowDesktop) {
       await session.play("capture")
       renderTargetToCapture = session.output.capture
       // Wait for capture render target to render a few frames
-      await new Promise(resolve => setTimeout(resolve, 50))
+      await new Promise(resolve => setTimeout(resolve, 0))
     }
     
     // Take a photo from the selected render target
