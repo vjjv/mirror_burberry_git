@@ -49,7 +49,7 @@ export const Settings = {
     recordAudioBitsPerSecond: 128000,
     recordLensAudio: true,
     recordMicAudio: true,
-    recordCaptureRenderTarget: false,
+    recordCaptureRenderTarget: true,
   },
 
   // FFmpeg settings
