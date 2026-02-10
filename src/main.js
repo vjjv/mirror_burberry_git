@@ -212,6 +212,8 @@ if (isDesktop() && !allowDesktop) {
       liveRenderTarget.style.display = "none"
       await session.play("capture")
       renderTargetToCapture = captureRenderTarget
+      // Wait for capture render target to render a few frames
+      await new Promise(resolve => setTimeout(resolve, 500))
     }
     
     // Take a photo from the selected render target
