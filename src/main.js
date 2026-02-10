@@ -204,14 +204,30 @@ if (isDesktop() && !allowDesktop) {
   // --- New event listeners for tap/long-press ---
   // Photo capture (tap)
   uiManager.recordButton.addEventListener("photo-capture", async () => {
-    // Take a photo from the live video (canvas)
-    // Use the current liveRenderTarget canvas
+    // Determine which render target to use based on settings
+    let renderTargetToCapture = liveRenderTarget
+    
+    if (Settings.recording.recordCaptureRenderTarget) {
+      // Switch to capture render target for photo
+      liveRenderTarget.style.display = "none"
+      await session.play("capture")
+      renderTargetToCapture = captureRenderTarget
+    }
+    
+    // Take a photo from the selected render target
     const canvas = document.createElement('canvas')
-    canvas.width = liveRenderTarget.width
-    canvas.height = liveRenderTarget.height
+    canvas.width = renderTargetToCapture.width
+    canvas.height = renderTargetToCapture.height
     const ctx = canvas.getContext('2d')
-    ctx.drawImage(liveRenderTarget, 0, 0, canvas.width, canvas.height)
+    ctx.drawImage(renderTargetToCapture, 0, 0, canvas.width, canvas.height)
     const dataURL = canvas.toDataURL('image/png')
+    
+    // Switch back to live render target if we used capture
+    if (Settings.recording.recordCaptureRenderTarget) {
+      liveRenderTarget.style.display = "block"
+      await session.play("live")
+    }
+    
     // Convert dataURL to Blob for download/share
     function dataURLtoBlob(dataurl) {
       const arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n)
