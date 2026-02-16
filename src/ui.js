@@ -111,6 +111,14 @@ export class UIManager {
         window.getSelection().removeAllRanges()
       }
     }
+    // Check if video recording is enabled in settings
+    if (!Settings.recording.enableVideoRecording) {
+      // Video recording disabled: immediately take photo on any press
+      console.log('Video recording disabled - taking photo immediately')
+      this.recordButton.dispatchEvent(new CustomEvent('photo-capture', {bubbles:true}))
+      return
+    }
+    
     // Check if device supports video recording
     if (!this.supportsVideoRecording) {
       // For Android 13 and lower: immediately take photo on any press
@@ -137,8 +145,8 @@ export class UIManager {
     e.preventDefault()
     e.stopPropagation()
     
-    // If device doesn't support video recording, the photo was already taken in _handlePressStart
-    if (!this.supportsVideoRecording) {
+    // If video recording is disabled or device doesn't support it, the photo was already taken in _handlePressStart
+    if (!Settings.recording.enableVideoRecording || !this.supportsVideoRecording) {
       return
     }
     
@@ -179,8 +187,8 @@ export class UIManager {
   }
 
   _handlePressCancel(e) {
-    // If device doesn't support video recording, no cleanup needed
-    if (!this.supportsVideoRecording) {
+    // If video recording is disabled or device doesn't support it, no cleanup needed
+    if (!Settings.recording.enableVideoRecording || !this.supportsVideoRecording) {
       return
     }
     

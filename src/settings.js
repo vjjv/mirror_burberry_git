@@ -42,6 +42,7 @@ export const Settings = {
 
   // Recording settings
   recording: {
+    enableVideoRecording: false, // Set to true to enable video recording on long press
     mimeType: "video/mp4",
     fps: 25,
     outputFileName: "recording.mp4",
