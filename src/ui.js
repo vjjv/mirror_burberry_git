@@ -232,32 +232,19 @@ export class UIManager {
   }
 
   displayPostRecordButtons(url, fixedBlob) {
-    // Device detection
-    const isAndroid = /Android/i.test(navigator.userAgent)
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent)
-    const isDesktop = !isAndroid && !isIOS
+    // Single unified Save & Share button
+    const saveShareButton = document.getElementById("save-share-button")
     
-    const shareButton = document.getElementById("share-button")
-    const downloadButton = document.getElementById("download-button")
-    
-    if (shareButton && downloadButton) {
-      if (isAndroid) {
-        // Android: show both buttons
-        shareButton.style.display = "inline-flex"
-        downloadButton.style.display = "inline-flex"
-      } else if (isIOS) {
-        // iOS: only share button
-        shareButton.style.display = "inline-flex"
-        downloadButton.style.display = "none"
-      } else {
-        // Desktop: only download button
-        shareButton.style.display = "none"
-        downloadButton.style.display = "inline-flex"
-      }
+    if (saveShareButton) {
+      saveShareButton.style.display = "block"
+      saveShareButton.style.width = "100%"
     }
 
-    // backButton (Retry) is already positioned correctly in HTML below button-row
-    // No need to move or apply inline styles
+    // Show retry button when photo/video is taken
+    const retryRow = document.querySelector(".retry-row")
+    if (retryRow) {
+      retryRow.style.display = "block"
+    }
 
     this.actionButton.style.display = "block"
     this.switchButton.style.display = "none"
@@ -273,15 +260,7 @@ export class UIManager {
     const videoFileName = Settings.recording.outputFileName
     const videoMimeType = Settings.recording.mimeType
 
-    document.getElementById("download-button").onclick = () => {
-      const a = document.createElement("a")
-      a.href = url
-      a.download = isImage ? imageFileName : videoFileName
-      a.click()
-      a.remove()
-    }
-
-    document.getElementById("share-button").onclick = async () => {
+    document.getElementById("save-share-button").onclick = async () => {
       try {
         const file = new File([fixedBlob], isImage ? imageFileName : videoFileName, {
           type: isImage ? imageMimeType : videoMimeType,
@@ -303,7 +282,11 @@ export class UIManager {
     }
 
     document.getElementById("back-button").onclick = async () => {
-      // Retry logic: hide action buttons, show record button and switch button
+      // Retry logic: hide action buttons and retry button, show record button and switch button
+      const retryRow = document.querySelector(".retry-row")
+      if (retryRow) {
+        retryRow.style.display = "none"
+      }
       this.actionButton.style.display = "none"
       this.switchButton.style.display = "block"
       this.toggleRecordButton(true)
