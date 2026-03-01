@@ -88,7 +88,7 @@ body {
   align-items: center;
   z-index: 1000;
   width: 90%;
-  max-width: 740px;
+  max-width: 754px;
 }
 
 #action-buttons .button-row {
@@ -131,7 +131,7 @@ body {
 
 .retry-row {
   position: absolute;
-  top: 8%;
+  top: 13.5%;
   display: none;
   z-index: 10000;
   right: 16%;
