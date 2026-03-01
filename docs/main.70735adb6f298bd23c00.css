@@ -62,7 +62,7 @@ body {
   transform: translateX(-50%);
   height: var(--button-size, 200px); /* Default for mobile */
   width: var(--button-size, 200px);
-  background-image: url("../assets/RecordButton.png");
+  background-image: url(assets/RecordButton.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -177,7 +177,7 @@ body {
 #switch-button {
   height: 70px;
   width: 70px;
-  background-image: url("../assets/SwitchButton.png"); /* Green background */
+  background-image: url(assets/SwitchButton.png); /* Green background */
   background-size: contain; /* Ensure the image covers the button */
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Preent tiling */
@@ -240,3 +240,4 @@ body {
 .desktop #switch-cam {
   display: none;
 }
+

@@ -334,9 +334,7 @@ export class UIManager {
       z-index: 999;
       background: black;
       overflow: hidden;
-      max-width: 76.5vw;
-      max-height: 76.5vh;
-      margin-top: 5vh;
+      max-width: 100vw;
     `
     bg.appendChild(container)
 
