@@ -197,6 +197,12 @@ if (isDesktop() && !allowDesktop) {
   // You may remove launchParams if you have no need for it
   await session.applyLens(lens, launchParams)
 
+  // Initialize capture render target in background if needed
+  if (Settings.recording.recordCaptureRenderTarget) {
+    await session.play("capture")
+    await new Promise(resolve => setTimeout(resolve, 100))
+    await session.play("live")
+  }
 
   //----------------------------------
   // BABA EDIT PHOTO/VIDEO PREVIEW
@@ -213,7 +219,7 @@ if (isDesktop() && !allowDesktop) {
       await session.play("capture")
       renderTargetToCapture = session.output.capture
       // Wait for capture render target to render a few frames
-      await new Promise(resolve => setTimeout(resolve, 0))
+      await new Promise(resolve => setTimeout(resolve, 100))
     }
     
     // Take a photo from the selected render target
