@@ -1,29 +1,80 @@
 import { bootstrapCameraKit, Injectable, remoteApiServicesFactory } from "@snap/camera-kit"
 import { Settings } from "./settings"
 
-//Credits to @bastiensaro (https://www.filtre-experience.fr/) for the code below
-const lensRemoteAPIHandler = {
-  apiSpecId: Settings.config.remoteAPISpecId, //spec ID needs to be the same as the spec ID from Mylenses API
+export const LENS_REMOTE_API_EVENT = "lens-remote-api"
 
-  //Below is the code that will run once any remote API request with the specs ID above is detected from the lens
+const tryParseJson = (value) => {
+  if (typeof value !== "string") {
+    return undefined
+  }
+
+  try {
+    return JSON.parse(value)
+  } catch {
+    return undefined
+  }
+}
+
+const parseRequestPayload = (request) => {
+  const fromParameters = request?.parameters && typeof request.parameters === "object" ? request.parameters : {}
+  const fromBody = request?.body
+
+  if (fromBody == null) {
+    return fromParameters
+  }
+
+  if (typeof fromBody === "object" && !(fromBody instanceof Uint8Array) && !(fromBody instanceof ArrayBuffer)) {
+    return { ...fromParameters, ...fromBody }
+  }
+
+  if (typeof fromBody === "string") {
+    const parsed = tryParseJson(fromBody)
+    return parsed && typeof parsed === "object" ? { ...fromParameters, ...parsed } : fromParameters
+  }
+
+  try {
+    const decoder = new TextDecoder()
+    const bytes = fromBody instanceof Uint8Array ? fromBody : new Uint8Array(fromBody)
+    const decodedBody = decoder.decode(bytes)
+    const parsed = tryParseJson(decodedBody)
+    return parsed && typeof parsed === "object" ? { ...fromParameters, ...parsed } : fromParameters
+  } catch (error) {
+    console.warn("REMOTE API: failed to parse request body as JSON, falling back to parameters", error)
+    return fromParameters
+  }
+}
+
+// Credits to @bastiensaro (https://www.filtre-experience.fr/) for the original base code
+const lensRemoteAPIHandler = {
+  apiSpecId: Settings.config.remoteAPISpecId, // Spec ID must match your My Lenses API spec ID
+
+  // Triggered whenever a Remote API request is received for the matching apiSpecId.
   getRequestHandler(request) {
-    if (request.endpointId !== "button_pressed") return //change to your EndPoint or Reference ID from Mylenses
-    console.log("REMOTE API :" + request.parameters.yourParameter)
-    //parameter can be used to differentiate between different buttons or events from your lens
-    //you can setup your own parameter in Mylenses API, below are just example
-    if (request.parameters.button_id === "12345") {
-      //run code for button 1
-      console.log("button 12345 is pressed")
-    } else if (request.parameters.button_id === "67890") {
-      //run code for button 2
+    const payload = parseRequestPayload(request)
+    const action = String(payload?.action ?? "").toLowerCase()
+    const value = Number(payload?.value)
+    const hasValidValue = Number.isFinite(value)
+
+    if (action !== "picker" || !hasValidValue) {
+      return
     }
 
-    //gives a reply to the lens request, you can use it to check that the webapp has received the request
+    const eventDetail = {
+      action,
+      value,
+      endpointId: request?.endpointId,
+      payload,
+      receivedAt: Date.now(),
+    }
+
+    window.dispatchEvent(new CustomEvent(LENS_REMOTE_API_EVENT, { detail: eventDetail }))
+
+    // Reply back to the lens so it can confirm delivery.
     return async (reply) => {
       reply({
         status: "success",
         metadata: {},
-        body: new TextEncoder().encode(request.parameters.yourParameter + " responded"),
+        body: new TextEncoder().encode(JSON.stringify({ ok: true, action, value })),
       })
     }
   },
@@ -35,6 +86,7 @@ export const bootstrapCameraKitWithRemoteAPI = async (apiToken) => {
     {
       apiToken: Settings.config.apiToken,
       logger: "console",
+      lensHttpValidationStrategy: "unrestricted",
     },
     (container) => {
       return container.provides(

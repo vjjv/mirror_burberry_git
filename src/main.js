@@ -8,6 +8,7 @@
 
 import { bootstrapCameraKit, createMediaStreamSource, Transform2D } from "@snap/camera-kit"
 import { bootstrapCameraKitWithRemoteAPI } from "./remoteAPI"
+import "./eventsForAnalytics"
 import "./styles/index.v3.css"
 import { CameraManager } from "./camera"
 import { MediaRecorderManager } from "./recorder"
@@ -15,6 +16,7 @@ import { UIManager } from "./ui"
 import { VideoProcessor } from "./videoProcessor"
 import { Settings } from "./settings"
 import { launchParams } from "./launchParams"
+
 // --- LensID override from URL param ---
 function getQueryParam(name) {
   const url = new URL(window.location.href);
@@ -127,6 +129,7 @@ function showDesktopOverlay() {
 const allowDesktop = getQueryParam('allowDesktop') === 'true';
 // Check for desktop before doing anything else
 if (isDesktop() && !allowDesktop) {
+  console.warn("[CameraKit] Desktop detected and allowDesktop is false, app startup is blocked.")
   showDesktopOverlay()
   // Stop execution by not running the main function
 } else {

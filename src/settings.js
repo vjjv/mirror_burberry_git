@@ -9,10 +9,10 @@ export const Settings = {
     apiToken: "eyJhbGciOiJIUzI1NiIsImtpZCI6IkNhbnZhc1MyU0hNQUNQcm9kIiwidHlwIjoiSldUIn0.eyJhdWQiOiJjYW52YXMtY2FudmFzYXBpIiwiaXNzIjoiY2FudmFzLXMyc3Rva2VuIiwibmJmIjoxNzM4MjM2Njg5LCJzdWIiOiJmYWMzYWZjOS0zOTEyLTRlNTUtYTdiZS03MjJlOGRmYWY4ZjV-UFJPRFVDVElPTn5lOGQ0OTM1NS00YmNlLTRiYWEtODkzNC1lMWNlNmU0ZDM5M2IifQ.6sZB_6aFPL8OW-UO3Y37P7Rev7mzjS9IhNRFk7NelBI",
     // lensID: "ce201dac-8be0-4d81-9ce1-860d28b58052", //MIRROR_BURBERRY
     // lensID: "2e78fb1c-0abb-48f7-9b6f-b6be6c98512e", //MIRROR_BURBERRY_02
-    lensID: "1629fdc3-df51-46f0-9c3c-5b50d8659cdf", //MIRROR_BURBERRY_04
-    groupID: "66977c25-aae3-42fb-ae73-caed0747c0e1", //MIRROR_IR group
-    remoteAPISpecId: "YOUR_REMOTE_API_SPEC_ID_HERE", // From my lenses API section
-    useRemoteAPI: false, // Set to true to enable using remote API
+    lensID: "fb70dee6-9fa3-4d16-8ccc-f555bed03aa8", //MIRROR_BURBERRY_04
+    groupID: "66977c25-aae3-42fb-ae73-caed0747c0e1", //MIRROR_IT group
+    remoteAPISpecId: "298de64a-14ae-4bb9-a385-8d83a4ba1848", // From my lenses API section
+    useRemoteAPI: true, // Set to true to enable using remote API
     
   },
   // Camera settings
@@ -80,6 +80,6 @@ export const Settings = {
 
   //remote API settings
   remoteAPI: {
-    isEnabled: false,
+    isEnabled: true,
   },
 }
